@@ -1,0 +1,11 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "My awesome website",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build required for static site'"
+  },
+  "author": "Bijen Duwal",
+  "license": "MIT"
+}
