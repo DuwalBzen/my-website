@@ -214,41 +214,32 @@
                                 
                                 <p>You can contact me almost about anything, would like to hear from you.</p>
                                   
-                                <!-- .contact-form -->
-                                <div class="contact-form">
+                         <!-- .contact-form -->
+                               <form id="contact-form" class="validate-form" method="POST" action="https://formspree.io/f/xzzevraj">
+                                <p>
+                                    <label for="name">NAME</label>
+                                    <input type="text" name="name" id="name" required>
+                                </p>
                                 
-                                  <form id="contact-form" class="validate-form" method="post" action="send-mail.php">
-                                    
-                                    <!-- enter mail subject here -->
-                                    <input type="hidden" name="subject" id="subject" value="You have a new message!">
-                                    
-                                    <p>
-                                      <label for="name">NAME</label>
-                                      <input type="text" name="name" id="name" class="required">
-                                    </p>
-                                    
-                                    <p>
-                                      <label for="email">EMAIL</label>
-                                      <input type="text" name="email" id="email" class="required email">
-                                    </p>
-                                    
-                                    <p class="antispam">Leave this empty if you are a human :
-                                        <br /><input name="url" />
-                                    </p>
+                                <p>
+                                    <label for="email">EMAIL</label>
+                                    <input type="email" name="email" id="email" required>
+                                </p>
                                 
-                                    <p>
-                                      <label for="message">MESSAGE</label>
-                                      <textarea name="message" id="message" class="required"></textarea>
-                                    </p>
-                                   
-                                    <p>
-                                      <button class="submit button"><span class="submit-label">Submit</span><span class="submit-status"></span></button>
-                                    </p>
-                                    
-                                  </form>
-                                  
-                                </div>
-                                <!-- .contact-form -->
+                                <p>
+                                    <label for="message">MESSAGE</label>
+                                    <textarea name="message" id="message" required></textarea>
+                                </p>
+                                
+                                <p>
+                                    <button type="submit" class="submit button">
+                                        <span class="submit-label">Submit</span>
+                                        <span class="submit-status"></span>
+                                    </button>
+                                </p>
+                            </form>
+                            <div id="form-alert" class="alert-hidden"></div>
+                            <!-- .contact-form -->
                                 	
                                
                             </div>
@@ -364,6 +355,53 @@
 		  document.write('<script src="js/jquery-3.1.1.min.js"><\/script>'); 
 	   }
 	</script>
+    <script>
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const form = e.target;
+    const alertBox = document.getElementById('form-alert');
+    
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Show success message
+            alertBox.textContent = 'Message sent successfully!';
+            alertBox.className = 'alert-success alert-visible';
+            
+            // Reset form
+            form.reset();
+            
+            // Hide alert after 4 seconds
+            setTimeout(() => {
+                alertBox.classList.remove('alert-visible');
+            }, 4000);
+        } else {
+            // Show error message
+            alertBox.textContent = 'Oops! There was a problem. Please try again.';
+            alertBox.className = 'alert-error alert-visible';
+            
+            setTimeout(() => {
+                alertBox.classList.remove('alert-visible');
+            }, 4000);
+        }
+    } catch (error) {
+        alertBox.textContent = 'Network error. Please check your connection.';
+        alertBox.className = 'alert-error alert-visible';
+        
+        setTimeout(() => {
+            alertBox.classList.remove('alert-visible');
+        }, 4000);
+    }
+});
+</script>
     <script src="js/jquery-migrate-3.0.0.min.js"></script>
     <script src="js/fastclick.js"></script>
     <script src="js/jquery.fitvids.js"></script>
